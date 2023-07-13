@@ -1,5 +1,10 @@
+import 'package:bloodbank/firebase/authentication.dart';
+import 'package:bloodbank/pages/homepage.dart';
 import 'package:bloodbank/pages/signuppage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -31,6 +36,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _authentication = Provider.of<Authentication>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Blood Bank"),
@@ -62,7 +68,7 @@ class _SignInPageState extends State<SignInPage> {
                         if (value == null || value.isEmpty) {
                           return "Invalid Email";
                         } else {
-                          return null;
+                          email = value;
                         }
                       },
                     ),
@@ -85,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
                         if (value == null || value.isEmpty) {
                           return "Invalid Password";
                         } else {
-                          return null;
+                          password = value;
                         }
                       },
                     ),
@@ -103,8 +109,17 @@ class _SignInPageState extends State<SignInPage> {
 
                             // foregroundColor: Colors.black,
                             ),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {}
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            await _authentication.login(
+                                email: email, password: password);
+                            if (FirebaseAuth.instance.currentUser != null) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()));
+                            }
+                          }
                         },
                         child: const Text(
                           "Sign in",
@@ -124,9 +139,11 @@ class _SignInPageState extends State<SignInPage> {
                   Text("Don't have an account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        
-                          builder: (context) => SignUpPage(),),);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SignUpPage(),
+                        ),
+                      );
                     },
                     child: Text(
                       "Sign up",

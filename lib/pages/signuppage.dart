@@ -1,4 +1,5 @@
 import 'package:bloodbank/pages/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -110,6 +111,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Invalid Email";
+                            } else {
+                              email = value;
                             }
                           },
                           controller: emailController,
@@ -198,6 +201,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 value.isEmpty ||
                                 value.length < 8) {
                               return "Invalid Password";
+                            } else {
+                              password = value;
                             }
                           },
                           controller: passwordController,
@@ -207,19 +212,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         ElevatedButton(
                           onPressed: () async {
-                            final isValid =
-                                signupFormKey.currentState?.validate();
+                            if (signupFormKey.currentState!.validate()) {
+                              await _authService.signUp(
+                                  email: email.toString().trim(),
+                                  password: password.toString().trim(),
+                                 );
+                              if (FirebaseAuth.instance.currentUser != null)
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomePage(),
+                                    ));
+                            } else {
+                              return null;
+                            }
 
-                            await _authService
-                                .createAccountWithEmailAndPassword(
-                                    email.toString().trim(),
-                                    password.toString().trim());
-
-                            if (_authService.user != null)
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
                             //   else valid = false;
                           },
                           style: ElevatedButton.styleFrom(
