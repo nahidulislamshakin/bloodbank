@@ -1,5 +1,8 @@
 import 'package:bloodbank/pages/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../firebase/authentication.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -8,6 +11,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final signupFormKey = GlobalKey<FormState>();
+  String email = "";
+  String password = "";
 
   TextEditingController? nameController;
 
@@ -22,7 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController? passwordController;
 
   static const List<String> bloodGroupList = [
-    
     "A+",
     "B+",
     "AB+",
@@ -57,6 +61,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _authService = Provider.of<Authentication>(context);
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -188,7 +194,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           obscureText: true,
                           validator: (value) {
-                            if (value == null || value.isEmpty || value.length<8) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.length < 8) {
                               return "Invalid Password";
                             }
                           },
@@ -198,15 +206,21 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: 10,
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            if (signupFormKey.currentState!.validate()) {
-                              Navigator.pushAndRemoveUntil(
+                          onPressed: () async {
+                            final isValid =
+                                signupFormKey.currentState?.validate();
+
+                            await _authService
+                                .createAccountWithEmailAndPassword(
+                                    email.toString().trim(),
+                                    password.toString().trim());
+
+                            if (_authService.user != null)
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()),
-                                  (route) => false);
-                            } else
-                              return null;
+                                      builder: (context) => HomePage()));
+                            //   else valid = false;
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,

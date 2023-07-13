@@ -48,18 +48,10 @@ class Authentication {
   //  }
   }
 
-  Future<UserModel?> createAccountWithEmailAndPassword(String email, String password, String name, String id, String number) async{
+  Future<UserModel?> createAccountWithEmailAndPassword(String email, String password) async{
 
   //  try{
-      final UserCredential? userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password).then((value) {
-        FirebaseFirestore.instance.collection("Students").doc(value.user?.uid).set({"email":value.user?.email,
-          "name":name,
-          "ID":id,
-          "number":number,
-        "password":password},
-        );
-
-      });
+      final UserCredential? userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       return userFromFirebase(userCredential?.user);
    // }on FirebaseAuthException catch(error){
    //   print(error.code);
