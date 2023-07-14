@@ -14,6 +14,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final signupFormKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
+  String name = "";
+  String phone = "";
+  String bloodgroup = "";
+  String district = "";
 
   TextEditingController? nameController;
 
@@ -37,7 +41,18 @@ class _SignUpPageState extends State<SignUpPage> {
     "AB-",
     "O-"
   ];
+  static const List<String> districtList = [
+    "Gopalganj",
+    "Dhaka",
+    "Khulna",
+    "Barisal",
+    "Rangpur",
+    "Chittagong",
+    "Gazipur",
+    "Sylhet"
+  ];
   String bloodGroupDropDownValue = bloodGroupList.first;
+  String districtDropDownValue = districtList.first;
 
   @override
   void initState() {
@@ -93,6 +108,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Invalid Name";
+                            } else {
+                              name = value;
                             }
                           },
                           controller: nameController,
@@ -131,6 +148,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Invalid Phone Number";
+                            } else {
+                              phone = value;
                             }
                           },
                           controller: phoneController,
@@ -167,8 +186,58 @@ class _SignUpPageState extends State<SignUpPage> {
                                   setState(() {
                                     bloodGroupDropDownValue = value!;
                                   });
+                                  bloodgroup = value;
                                 },
                                 items: bloodGroupList
+                                    .map<DropdownMenuItem>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: FittedBox(
+                                        child: Text(
+                                      value,
+                                      style: const TextStyle(color: Colors.red),
+                                    )),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15))),
+                          //  padding: const EdgeInsets.only(left: 5,right: 5),
+                          //
+                          child: DropdownButtonHideUnderline(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 15, right: 20),
+                              child: DropdownButton(
+                                //hint: Text("Blood Group"),
+                                dropdownColor: Colors.red.shade100,
+                                elevation: 5,
+                                //  isDense: true,
+                                isExpanded: true,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                value: districtDropDownValue,
+                                icon: const Icon(Icons.arrow_downward),
+                                // underline: Container(
+                                //   height: 2,
+                                //   color: Colors.red,
+                                // ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    districtDropDownValue = value!;
+                                  });
+                                  district = value;
+                                },
+                                items: districtList
                                     .map<DropdownMenuItem>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -214,9 +283,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           onPressed: () async {
                             if (signupFormKey.currentState!.validate()) {
                               await _authService.signUp(
-                                  email: email.toString().trim(),
-                                  password: password.toString().trim(),
-                                 );
+                                  email: email, password: password);
+                      
+                              await _authService.sendData(name, email, phone,
+                                  bloodgroup, password, district);
                               if (FirebaseAuth.instance.currentUser != null)
                                 Navigator.pushReplacement(
                                     context,
