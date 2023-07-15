@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DonorList extends StatefulWidget {
-  final String bloodGroup;
-  DonorList({required this.bloodGroup});
+   final String bloodGroup;
+   DonorList({required this.bloodGroup});
 
   @override
   State<DonorList> createState() => _DonorListState(bloodGroup: bloodGroup);
@@ -13,8 +13,8 @@ class DonorList extends StatefulWidget {
 
 class _DonorListState extends State<DonorList> {
   //String district = "";
-  final String bloodGroup;
-  _DonorListState({required this.bloodGroup});
+   final String bloodGroup;
+   _DonorListState({required this.bloodGroup});
 
   List allResult = [];
   List searchResult = [];
@@ -51,6 +51,7 @@ class _DonorListState extends State<DonorList> {
     if (districtController!.text != null) {
       for (var userSnapShot in allResult) {
         var district = userSnapShot["District"].toString().toLowerCase();
+        // var blood = userSnapShot["Blood Group"].toString().toLowerCase();
         if (district.contains(districtController!.text.toLowerCase())) {
           showResults.add(userSnapShot);
         }
@@ -66,7 +67,9 @@ class _DonorListState extends State<DonorList> {
   searchFromFirebase() async {
     final result = await FirebaseFirestore.instance
         .collection("User")
-        .orderBy("Blood Group").get();
+        .where("Blood Group", isEqualTo: bloodGroup)
+        .get();
+
     setState(() {
       allResult = result.docs;
       //super.initState();
@@ -79,13 +82,15 @@ class _DonorListState extends State<DonorList> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
-              Icons.back_hand,
-              color: Colors.red,
-            ),
+            icon: Image.asset("images/icons/back.png"),
             onPressed: () => Navigator.pop(context),
           ),
           title: CupertinoSearchTextField(
+            placeholder: "District",
+
+            // decoration: InputDecoration(
+            //   hintText: "Location",
+            // ),
             controller: districtController,
           ),
 
@@ -119,14 +124,14 @@ class _DonorListState extends State<DonorList> {
                   itemBuilder: (context, index) {
                     // var data = snapshots.data!.docs[index].data()
                     //     as Map<String, dynamic>;
-                    // if (district.isEmpty) {
+                    //  if (searchResult[index]["Blood Group"] == bloodGroup) {
                     return ListTile(
                       leading: Text(
                         searchResult[index]["Blood Group"],
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.red,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),

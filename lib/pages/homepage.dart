@@ -1,4 +1,3 @@
-import 'package:bloodbank/pages/districtpage.dart';
 import 'package:bloodbank/pages/donarlistpage.dart';
 import 'package:bloodbank/pages/signinpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -268,25 +267,20 @@ class _HomePageState extends State<HomePage> {
                   width: _deviceWidth,
                   child: Column(
                     children: [
+
+                      // ElevatedButton(
+                      //   style:ElevatedButton.styleFrom(
+                      //     backgroundColor: Colors.red,
+                      //   ),
+                      //   onPressed: (){
+                      //   Navigator.push(context, MaterialPageRoute(builder: (context)=>DonorList()));
+                      // },
+                      //  child: Text("Find Donor",
+                      //  style: TextStyle(fontSize: 20),)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // Container(
-                          //   // width: 50,
-                          //   // height: 50,
-                          //   // margin: EdgeInsets.all(5),
-                          //   padding: EdgeInsets.all(5),
-                          //   decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(50),
-                          //       color: Colors.red),
-                          //   child: FittedBox(
-                          //       child: Text(
-                          //     "A+",
-                          //     style: TextStyle(fontSize: 30),
-                          //     //textAlign: TextAlign.center,
-                          //   ),),
-                          //   //   color: Colors.red,
-                          // ),
+                         
                           bloodGroupButton("A+",context),
                           bloodGroupButton("B+",context),
                           bloodGroupButton("AB+",context),
@@ -354,6 +348,7 @@ Widget Button(Widget icon, String iconName) {
 Widget bloodGroupButton(String bloodGroup, BuildContext context) {
   return GestureDetector(
     onTap: () {
+      
       Navigator.push(context, MaterialPageRoute(builder: ((context) => 
       DonorList(bloodGroup: bloodGroup,))));
     },

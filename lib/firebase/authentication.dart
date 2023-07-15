@@ -49,28 +49,6 @@ class Authentication {
     }
   }
 
-  //  Future<UserModel?> SignUP(String email, String password, String name, String phone, String bloodgroup, String district) async{
-
-  //   try{
-  //     final UserCredential? userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) async{
-  //       await FirebaseFirestore.instance.collection("user").doc(value.user?.uid).set({
-  //         "email":value.user?.email,
-  //         "name":name,
-  //         "phone":phone,
-  //         "location":district,
-  //       "password":password,
-  //       "Blood Group":bloodgroup,
-  //       },
-  //       );
-
-  //     });
-  //     return userFromFirebase(userCredential?.user);
-  //  } catch(error){
-  //    print(error);
-  //  }
-
-//}
-
   Future<String?> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();

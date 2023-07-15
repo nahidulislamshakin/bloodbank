@@ -74,6 +74,7 @@ flutter:
     - images/icons/logout.png
     - images/icons/organization-chart.png
     - images/bloodchart.jpg
+    - images/icons/back.png
     
   #   - images/a_dot_ham.jpeg
 

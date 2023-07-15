@@ -1,4 +1,5 @@
 import 'package:bloodbank/firebase/authentication.dart';
+import 'package:bloodbank/pages/becomedonorpage.dart';
 import 'package:bloodbank/pages/homepage.dart';
 import 'package:bloodbank/pages/signinpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<Authentication>(
           create: (context) => Authentication(),
-        )
+        ),
+        Provider<BecomeDonorPage>(
+          create: (context)=>BecomeDonorPage() )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
