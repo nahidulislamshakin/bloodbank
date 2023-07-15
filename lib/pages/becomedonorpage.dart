@@ -5,12 +5,25 @@ import 'package:provider/provider.dart';
 
 import '../firebase/authentication.dart';
 
-class SignUpPage extends StatefulWidget {
+//  const List<String> districtList = [
+//   "Gopalganj",
+//   "Dhaka",
+//   "Khulna",
+//   "Barisal",
+//   "Rangpur",
+//   "Chittagong",
+//   "Gazipur",
+//   "Sylhet"
+// ];
+
+class BecomeDonorPage extends StatefulWidget {
+  // get districtLeangth => null;
+
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<BecomeDonorPage> createState() => _BecomeDonorPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _BecomeDonorPageState extends State<BecomeDonorPage> {
   final signupFormKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
@@ -51,6 +64,10 @@ class _SignUpPageState extends State<SignUpPage> {
     "Gazipur",
     "Sylhet"
   ];
+  List<String> districtGet() {
+    return districtList;
+  }
+
   String bloodGroupDropDownValue = bloodGroupList.first;
   String districtDropDownValue = districtList.first;
 
@@ -255,36 +272,36 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            // fillColor: Colors.red,
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            labelText: "Password",
-                            // prefix: Text("Name"),
-                          ),
-                          obscureText: true,
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.length < 8) {
-                              return "Invalid Password";
-                            } else {
-                              password = value;
-                            }
-                          },
-                          controller: passwordController,
-                        ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     // fillColor: Colors.red,
+                        //     border: OutlineInputBorder(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(15))),
+                        //     labelText: "Password",
+                        //     // prefix: Text("Name"),
+                        //   ),
+                        //   obscureText: true,
+                        //   validator: (value) {
+                        //     if (value == null ||
+                        //         value.isEmpty ||
+                        //         value.length < 8) {
+                        //       return "Invalid Password";
+                        //     } else {
+                        //       password = value;
+                        //     }
+                        //   },
+                        //   controller: passwordController,
+                        // ),
                         SizedBox(
                           height: 10,
                         ),
                         ElevatedButton(
                           onPressed: () async {
                             if (signupFormKey.currentState!.validate()) {
-                              await _authService.signUp(
-                                  email: email, password: password);
-                      
+                              // await _authService.signUp(
+                              //     email: email, password: password);
+
                               await _authService.sendData(name, email, phone,
                                   bloodgroup, password, district);
                               if (FirebaseAuth.instance.currentUser != null)
@@ -302,7 +319,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                           ),
-                          child: Text("Sign up"),
+                          child: Text("Update"),
                         ),
                       ],
                     ),

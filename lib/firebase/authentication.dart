@@ -20,8 +20,7 @@ class Authentication {
   //   return FirebaseAuth.instance.authStateChanges().map(userFromFirebase);
   // }
 
-
-  Future<void> login({
+  Future<String?> login({
     required String email,
     required String password,
   }) async {
@@ -29,7 +28,7 @@ class Authentication {
       final result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      e.message;
+      return e.message;
     }
   }
 
@@ -72,23 +71,39 @@ class Authentication {
 
 //}
 
-  Future<void> signOut() async {
-    return FirebaseAuth.instance.signOut();
+  Future<String?> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
   }
 
-  Future<void> sendData(String name, String email, String phone,
+  Future<String?> sendData(String name, String email, String phone,
       String bloodgroup, String Password, String district) async {
-    await FirebaseFirestore.instance
-        .collection("User")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({
-      "Name": name,
-      "Email": email,
-      "Phone": phone,
-      "Blood Group": bloodgroup,
-      "Password": Password,
-      "District": district,
-    });
-    return;
+    try {
+      await FirebaseFirestore.instance
+          .collection("User")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        "Name": name,
+        "Email": email,
+        "Phone": phone,
+        "Blood Group": bloodgroup,
+        "Password": Password,
+        "District": district,
+      });
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future<String?> forgotPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+    //  return;
   }
 }
