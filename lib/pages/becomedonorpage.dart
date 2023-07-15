@@ -203,7 +203,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                                 //  isDense: true,
                                 isExpanded: true,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                                    const BorderRadius.all(Radius.circular(15)),
                                 value: bloodGroupDropDownValue,
                                 icon: const Icon(Icons.arrow_downward),
                                 // underline: Container(
@@ -231,7 +231,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Container(
@@ -252,7 +252,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                                 //  isDense: true,
                                 isExpanded: true,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                                    const BorderRadius.all(Radius.circular(15)),
                                 value: districtDropDownValue,
                                 icon: const Icon(Icons.arrow_downward),
                                 // underline: Container(
@@ -304,7 +304,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                         //   },
                         //   controller: passwordController,
                         // ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         ElevatedButton(
@@ -330,7 +330,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                           ),
-                          child: Text("Update"),
+                          child: const Text("Update"),
                         ),
                       ],
                     ),

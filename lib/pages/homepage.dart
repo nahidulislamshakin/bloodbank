@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text("Blood Bank"),
+        title: const Text("Blood Bank"),
         centerTitle: _deviceWidth < 500 ? true : null,
         // leading: IconButton(
         //   onPressed: () => scaffoldKey.currentState!.openDrawer(),
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                       colors: [Colors.red, Colors.brown])),
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.settings,
                 color: Colors.red,
                 size: 30,
@@ -113,6 +113,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 await _authService.signOut();
                 if (FirebaseAuth.instance.currentUser == null) {
+                  // ignore: use_build_context_synchronously
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => SignInPage()),
@@ -191,7 +192,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -217,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                                     "images/icons/blood_request.png"),
                               ),
                               "Request"),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
 
@@ -225,10 +226,10 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 // width: 50,
                                 height: 50,
-                                child: Icon(Icons.feed),
+                                child: const Icon(Icons.feed),
                               ),
                               "Feed"),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Button(
@@ -241,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                               "Organization"),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -260,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -287,7 +288,7 @@ class _HomePageState extends State<HomePage> {
                           bloodGroupButton("O+",context),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -302,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 FittedBox(
@@ -333,7 +334,7 @@ Widget Button(Widget icon, String iconName) {
               },
               child: icon,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
               // width: 5,
             ),
@@ -356,8 +357,8 @@ Widget bloodGroupButton(String bloodGroup, BuildContext context) {
       width: 60,
       height: 60,
       // margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(15),
+      decoration: const BoxDecoration(
           //borderRadius: BorderRadius.circular(50),
           shape: BoxShape.circle,
           color: Colors.red),

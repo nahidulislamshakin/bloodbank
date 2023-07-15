@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bloodbank/firebase/authentication.dart';
 import 'package:bloodbank/pages/homepage.dart';
 import 'package:bloodbank/pages/becomedonorpage.dart';
