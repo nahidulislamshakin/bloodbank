@@ -1,3 +1,4 @@
+import 'package:bloodbank/pages/about.dart';
 import 'package:bloodbank/pages/donarlistpage.dart';
 import 'package:bloodbank/pages/signinpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -92,9 +93,26 @@ class _HomePageState extends State<HomePage> {
               ),
               title: const Text(
                 "Profile",
-                style: TextStyle(color: Colors.green, fontSize: 20),
+                style: TextStyle(color: Colors.green, fontSize: 16),
               ),
               onTap: () {
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => HomePage()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.developer_board,
+                color: Colors.red,
+                size: 30,
+              ),
+              title: const Text(
+                "About",
+                style: TextStyle(color: Colors.green, fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AboutPage()));
                 // Navigator.pushReplacement(context,
                 //     MaterialPageRoute(builder: (context) => HomePage()));
               },
@@ -108,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                   )),
               title: const Text(
                 "Sign out",
-                style: TextStyle(color: Colors.green, fontSize: 20),
+                style: TextStyle(color: Colors.green, fontSize: 16),
               ),
               onTap: () async {
                 await _authService.signOut();
@@ -212,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                           Button(
                               Container(
                                 // color: Colors.red.shade200,
-                               // width: 50,
+                                // width: 50,
                                 height: 50,
                                 child: Image.asset(
                                     "images/icons/blood_request.png"),
@@ -268,7 +286,6 @@ class _HomePageState extends State<HomePage> {
                   width: _deviceWidth,
                   child: Column(
                     children: [
-
                       // ElevatedButton(
                       //   style:ElevatedButton.styleFrom(
                       //     backgroundColor: Colors.red,
@@ -281,11 +298,10 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                         
-                          bloodGroupButton("A+",context),
-                          bloodGroupButton("B+",context),
-                          bloodGroupButton("AB+",context),
-                          bloodGroupButton("O+",context),
+                          bloodGroupButton("A+", context),
+                          bloodGroupButton("B+", context),
+                          bloodGroupButton("AB+", context),
+                          bloodGroupButton("O+", context),
                         ],
                       ),
                       const SizedBox(
@@ -294,10 +310,10 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          bloodGroupButton("A-",context),
-                          bloodGroupButton("B-",context),
-                          bloodGroupButton("AB-",context),
-                          bloodGroupButton("O-",context),
+                          bloodGroupButton("A-", context),
+                          bloodGroupButton("B-", context),
+                          bloodGroupButton("AB-", context),
+                          bloodGroupButton("O-", context),
                         ],
                       )
                     ],
@@ -310,6 +326,20 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.cover,
                   child: Image.asset("images/bloodchart.jpg"),
                 ),
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     Container(
+                //       margin: EdgeInsets.only(top: 50),
+                //       decoration: BoxDecoration(
+                //         border: Border.all(),
+                //         color: Colors.red,
+
+                //       ),
+                //       child: Text("Nahidul Islam Shakin"),
+                //     )
+                //   ],
+                // )
               ],
             ),
           ),
@@ -320,38 +350,37 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget Button(Widget icon, String iconName) {
-  
-    return Expanded(
-      child: Container(
-        color: Colors.red,
-        // width: 100,
-        // height: 100,
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                
-              },
-              child: icon,
-            ),
-            const SizedBox(
-              height: 5,
-              // width: 5,
-            ),
-            Text(iconName),
-          ],
-        ),
+  return Expanded(
+    child: Container(
+      color: Colors.red,
+      // width: 100,
+      // height: 100,
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: icon,
+          ),
+          const SizedBox(
+            height: 5,
+            // width: 5,
+          ),
+          Text(iconName),
+        ],
       ),
-    );
-
+    ),
+  );
 }
 
 Widget bloodGroupButton(String bloodGroup, BuildContext context) {
   return GestureDetector(
     onTap: () {
-      
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => 
-      DonorList(bloodGroup: bloodGroup,))));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: ((context) => DonorList(
+                    bloodGroup: bloodGroup,
+                  ))));
     },
     child: Container(
       width: 60,
