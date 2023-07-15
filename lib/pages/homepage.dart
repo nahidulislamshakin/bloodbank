@@ -95,8 +95,8 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(color: Colors.green, fontSize: 20),
               ),
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => HomePage()));
               },
             ),
             ListTile(

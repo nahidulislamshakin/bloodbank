@@ -45,6 +45,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
   TextEditingController? passwordController;
 
   static const List<String> bloodGroupList = [
+    "Choose",
     "A+",
     "B+",
     "AB+",
@@ -54,16 +55,26 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
     "AB-",
     "O-"
   ];
-  static const List<String> districtList = [
-    "Gopalganj",
-    "Dhaka",
-    "Khulna",
-    "Barisal",
-    "Rangpur",
-    "Chittagong",
-    "Gazipur",
-    "Sylhet"
-  ];
+  // static const List<String> districtList = [
+  //   "Gopalganj",
+  //   "Dhaka",
+  //   "Khulna",
+  //   "Barisal",
+  //   "Rangpur",
+  //   "Chittagong",
+  //   "Gazipur",
+  //   "Sylhet"
+  // ];
+
+  static const List<String> districtList = ["Choose","Dhaka","Faridpur","Gazipur","Gopalganj",
+"Jamalpur","Kishoreganj","Madaripur","Manikganj","Munshiganj","Mymensingh","Narayanganj",
+"Narsingdi","Netrokona","Rajbari","Shariatpur","Sherpur","Tangail","Bogra","Joypurhat",
+"Naogaon","Natore","Nawabganj","Pabna","Rajshahi","Sirajgonj","Dinajpur","Gaibandha","Kurigram",
+"Lalmonirhat","Nilphamari","Panchagarh","Rangpur","Thakurgaon","Barguna ","Barisal","Bhola",
+"Jhalokati","Patuakhali","Pirojpur","Bandarban","Brahmanbaria","Chandpur","Chittagong",
+"Comilla","Cox''s Bazar","Feni","Khagrachari","Lakshmipur","Noakhali","Rangamati","Habiganj","Maulvibazar",
+"Sunamganj","Sylhet","Bagerhat","Chuadanga","Jessore","Jhenaidah","Khulna","Kushtia",
+"Magura","Meherpur","Narail","Satkhira"];
   List<String> districtGet() {
     return districtList;
   }
