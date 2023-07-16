@@ -212,17 +212,17 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                           },
                           icon: Icon(Icons.camera_alt),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            // maximumSize: Size.fromRadius(10),
-                            // shape: CircleBorder(side: BorderSide.none),
-                          ),
-                          onPressed: () {},
-                          child: FittedBox(
-                              fit: BoxFit.cover,
-                              child: Text("Upload Profile Picture")),
-                        ),
+                        // ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: Colors.red,
+                        //     // maximumSize: Size.fromRadius(10),
+                        //     // shape: CircleBorder(side: BorderSide.none),
+                        //   ),
+                        //   onPressed: () {},
+                        //   child: FittedBox(
+                        //       fit: BoxFit.cover,
+                        //       child: Text("Upload Profile Picture")),
+                        // ),
                         SizedBox(
                           height: 10,
                         ),
@@ -424,9 +424,10 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                                 bloodGroupDropDownValue == "Blood Group" ||
                                 districtDropDownValue == null ||
                                 districtDropDownValue == "Location") {
-                                  ScaffoldMessenger.of(context)
+                              ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
-                                content: Text("Please Select Blood Group and Location"),
+                                content: Text(
+                                    "Please Select Blood Group and Location"),
                               ));
                               return;
                             } else if (imageUrl.isEmpty) {
