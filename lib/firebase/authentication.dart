@@ -58,7 +58,7 @@ class Authentication {
   }
 
   Future<String?> sendData(String name, String email, String phone,
-      String bloodgroup, String Password, String district) async {
+      String bloodgroup, String Password, String district,String imageUrl, String uid) async {
     try {
       await FirebaseFirestore.instance
           .collection("User")
@@ -70,6 +70,7 @@ class Authentication {
         "Blood Group": bloodgroup,
         "Password": Password,
         "District": district,
+        "Uid":uid
       });
     } on FirebaseAuthException catch (e) {
       return e.message;

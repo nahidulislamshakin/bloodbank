@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class RequestPage extends StatefulWidget {
+class FeedPage extends StatefulWidget {
   @override
-  State<RequestPage> createState() => _RequestPageState();
+  State<FeedPage> createState() => _FeedPageState();
 }
 
-class _RequestPageState extends State<RequestPage> {
+class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Make Request for Blood"),
+        title: Text("Feed"),
         backgroundColor: Colors.red,
         centerTitle: true,
       ),

@@ -153,7 +153,7 @@ class _DonorListState extends State<DonorList> {
                             fontSize: 16,
                             fontWeight: FontWeight.normal),
                       ),
-                      trailing: Text(searchResult[index]["Phone"]),
+                      trailing: SelectableText(searchResult[index]["Phone"]),
                     );
                     //  }
                     // if (data["District"] == district) {

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:bloodbank/pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../firebase/authentication.dart';
@@ -25,7 +29,7 @@ class BecomeDonorPage extends StatefulWidget {
 
 class _BecomeDonorPageState extends State<BecomeDonorPage> {
   final signupFormKey = GlobalKey<FormState>();
-  String email = "";
+  // String email = "";
   String password = "";
   String name = "";
   String phone = "";
@@ -34,7 +38,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
 
   TextEditingController? nameController;
 
-  TextEditingController? emailController;
+  // TextEditingController? emailController;
 
   TextEditingController? phoneController;
 
@@ -45,7 +49,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
   TextEditingController? passwordController;
 
   static const List<String> bloodGroupList = [
-    "Choose",
+    "Blood Group",
     "A+",
     "B+",
     "AB+",
@@ -66,26 +70,85 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
   //   "Sylhet"
   // ];
 
-  static const List<String> districtList = ["Choose","Dhaka","Faridpur","Gazipur","Gopalganj",
-"Jamalpur","Kishoreganj","Madaripur","Manikganj","Munshiganj","Mymensingh","Narayanganj",
-"Narsingdi","Netrokona","Rajbari","Shariatpur","Sherpur","Tangail","Bogra","Joypurhat",
-"Naogaon","Natore","Nawabganj","Pabna","Rajshahi","Sirajgonj","Dinajpur","Gaibandha","Kurigram",
-"Lalmonirhat","Nilphamari","Panchagarh","Rangpur","Thakurgaon","Barguna ","Barisal","Bhola",
-"Jhalokati","Patuakhali","Pirojpur","Bandarban","Brahmanbaria","Chandpur","Chittagong",
-"Comilla","Cox''s Bazar","Feni","Khagrachari","Lakshmipur","Noakhali","Rangamati","Habiganj","Maulvibazar",
-"Sunamganj","Sylhet","Bagerhat","Chuadanga","Jessore","Jhenaidah","Khulna","Kushtia",
-"Magura","Meherpur","Narail","Satkhira"];
+  static const List<String> districtList = [
+    "Location",
+    "Dhaka",
+    "Faridpur",
+    "Gazipur",
+    "Gopalganj",
+    "Jamalpur",
+    "Kishoreganj",
+    "Madaripur",
+    "Manikganj",
+    "Munshiganj",
+    "Mymensingh",
+    "Narayanganj",
+    "Narsingdi",
+    "Netrokona",
+    "Rajbari",
+    "Shariatpur",
+    "Sherpur",
+    "Tangail",
+    "Bogra",
+    "Joypurhat",
+    "Naogaon",
+    "Natore",
+    "Nawabganj",
+    "Pabna",
+    "Rajshahi",
+    "Sirajgonj",
+    "Dinajpur",
+    "Gaibandha",
+    "Kurigram",
+    "Lalmonirhat",
+    "Nilphamari",
+    "Panchagarh",
+    "Rangpur",
+    "Thakurgaon",
+    "Barguna ",
+    "Barisal",
+    "Bhola",
+    "Jhalokati",
+    "Patuakhali",
+    "Pirojpur",
+    "Bandarban",
+    "Brahmanbaria",
+    "Chandpur",
+    "Chittagong",
+    "Comilla",
+    "Cox''s Bazar",
+    "Feni",
+    "Khagrachari",
+    "Lakshmipur",
+    "Noakhali",
+    "Rangamati",
+    "Habiganj",
+    "Maulvibazar",
+    "Sunamganj",
+    "Sylhet",
+    "Bagerhat",
+    "Chuadanga",
+    "Jessore",
+    "Jhenaidah",
+    "Khulna",
+    "Kushtia",
+    "Magura",
+    "Meherpur",
+    "Narail",
+    "Satkhira"
+  ];
   List<String> districtGet() {
     return districtList;
   }
 
   String bloodGroupDropDownValue = bloodGroupList.first;
   String districtDropDownValue = districtList.first;
+  String imageUrl = "";
 
   @override
   void initState() {
     nameController = TextEditingController();
-    emailController = TextEditingController();
+    //emailController = TextEditingController();
 
     phoneController = TextEditingController();
 
@@ -123,6 +186,46 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                     key: signupFormKey,
                     child: Column(
                       children: [
+                        IconButton(
+                          onPressed: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(
+                                source: ImageSource.gallery);
+                            print(file?.path);
+                            if (file == null) return;
+                            String uniqueFileName = DateTime.now()
+                                .microsecondsSinceEpoch
+                                .toString();
+                            Reference referenceRoot =
+                                FirebaseStorage.instance.ref();
+                            Reference referenceDirImages =
+                                referenceRoot.child("images");
+                            Reference referenceImageToUpload =
+                                referenceDirImages.child(uniqueFileName);
+                            try {
+                              await referenceImageToUpload.putFile(
+                                File(file!.path),
+                              );
+                              imageUrl =
+                                  await referenceImageToUpload.getDownloadURL();
+                            } catch (e) {}
+                          },
+                          icon: Icon(Icons.camera_alt),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            // maximumSize: Size.fromRadius(10),
+                            // shape: CircleBorder(side: BorderSide.none),
+                          ),
+                          onPressed: () {},
+                          child: FittedBox(
+                              fit: BoxFit.cover,
+                              child: Text("Upload Profile Picture")),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
@@ -145,23 +248,23 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            labelText: "E-mail",
-                            // prefix: Text("Name"),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Invalid Email";
-                            } else {
-                              email = value;
-                            }
-                          },
-                          controller: emailController,
-                        ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(15))),
+                        //     labelText: "E-mail",
+                        //     // prefix: Text("Name"),
+                        //   ),
+                        //   validator: (value) {
+                        //     if (value == null || value.isEmpty) {
+                        //       return "Invalid Email";
+                        //     } else {
+                        //       email = value;
+                        //     }
+                        //   },
+                        //   controller: emailController,
+                        // ),
                         const SizedBox(
                           height: 8,
                         ),
@@ -211,6 +314,8 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                                 //   color: Colors.red,
                                 // ),
                                 onChanged: (value) {
+                                  if (value == null || value == "Blood Group")
+                                    return;
                                   setState(() {
                                     bloodGroupDropDownValue = value!;
                                   });
@@ -260,6 +365,8 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                                 //   color: Colors.red,
                                 // ),
                                 onChanged: (value) {
+                                  if (value == null || value == "Location")
+                                    return;
                                   setState(() {
                                     districtDropDownValue = value!;
                                   });
@@ -307,14 +414,40 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                         const SizedBox(
                           height: 10,
                         ),
+
+                        SizedBox(
+                          height: 10,
+                        ),
                         ElevatedButton(
                           onPressed: () async {
-                            if (signupFormKey.currentState!.validate()) {
+                            if (bloodGroupDropDownValue == null ||
+                                bloodGroupDropDownValue == "Blood Group" ||
+                                districtDropDownValue == null ||
+                                districtDropDownValue == "Location") {
+                                  ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text("Please Select Blood Group and Location"),
+                              ));
+                              return;
+                            } else if (imageUrl.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text("Please Upload an image"),
+                              ));
+                              return;
+                            } else if (signupFormKey.currentState!.validate()) {
                               // await _authService.signUp(
                               //     email: email, password: password);
 
-                              await _authService.sendData(name, email, phone,
-                                  bloodgroup, password, district);
+                              await _authService.sendData(
+                                  name,
+                                  FirebaseAuth.instance.currentUser!.email!,
+                                  phone,
+                                  bloodgroup,
+                                  password,
+                                  district,
+                                  imageUrl,
+                                  FirebaseAuth.instance.currentUser!.uid);
                               if (FirebaseAuth.instance.currentUser != null)
                                 Navigator.pushReplacement(
                                     context,
