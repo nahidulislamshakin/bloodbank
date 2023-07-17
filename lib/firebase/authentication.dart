@@ -70,7 +70,8 @@ class Authentication {
         "Blood Group": bloodgroup,
         "Password": Password,
         "District": district,
-        "Uid":uid
+        "Uid":uid,
+        "imageUrl":imageUrl
       });
     } on FirebaseAuthException catch (e) {
       return e.message;

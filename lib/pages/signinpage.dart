@@ -23,6 +23,28 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController? passwordController;
   final formKey = GlobalKey<FormState>();
 
+  // Returns true if email address is in use.
+Future<bool> checkIfEmailInUse(String emailAddress) async {
+  try {
+    // Fetch sign-in methods for the email address
+    final list = await FirebaseAuth.instance.fetchSignInMethodsForEmail(emailAddress);
+
+    // In case list is not empty
+    if (list.isNotEmpty) {
+      // Return true because there is an existing
+      // user using the email address
+      return true;
+    } else {
+      // Return false because email adress is not in use
+      return false;
+    }
+  } catch (error) {
+    // Handle error
+    // ...
+    return true;
+  }
+}
+
   @override
   void initState() {
     // TODO: implement initState
@@ -49,26 +71,50 @@ class _SignInPageState extends State<SignInPage> {
         onLogin: (loginData) async {
           await _authentication.login(
               email: loginData.name, password: loginData.password);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false);
+          if (FirebaseAuth.instance.currentUser != null) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => BecomeDonorPage()),
+                (route) => false);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text("Invalid email or password"),
+            ));
+            return Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SignInPage()));
+          }
         },
 
-        onRecoverPassword: (email)async {
+        onRecoverPassword: (email) async {
           await _authentication.forgotPassword(email);
         },
 
         onSignup: (signupData) async {
           if (signupData.name == null || signupData.password == null) {
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text("Please input email and password"),
+            ));
             return "Please input email and password";
+          }
+          else if(await checkIfEmailInUse(signupData.name!)==true){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text("Email is already used"),
+            ));
+            return Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SignInPage()));
+
           }
           await _authentication.signUp(
               email: signupData.name!, password: signupData.password!);
-                        Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => BecomeDonorPage()),
-              (route) => false);
+          if (FirebaseAuth.instance.currentUser != null) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => BecomeDonorPage()),
+                (route) => false);
+          }
         },
         userType: LoginUserType.email,
         // additionalSignupFields: [

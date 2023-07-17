@@ -186,31 +186,42 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                     key: signupFormKey,
                     child: Column(
                       children: [
-                        IconButton(
-                          onPressed: () async {
-                            ImagePicker imagePicker = ImagePicker();
-                            XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery);
-                            print(file?.path);
-                            if (file == null) return;
-                            String uniqueFileName = DateTime.now()
-                                .microsecondsSinceEpoch
-                                .toString();
-                            Reference referenceRoot =
-                                FirebaseStorage.instance.ref();
-                            Reference referenceDirImages =
-                                referenceRoot.child("images");
-                            Reference referenceImageToUpload =
-                                referenceDirImages.child(uniqueFileName);
-                            try {
-                              await referenceImageToUpload.putFile(
-                                File(file!.path),
-                              );
-                              imageUrl =
-                                  await referenceImageToUpload.getDownloadURL();
-                            } catch (e) {}
-                          },
-                          icon: Icon(Icons.camera_alt),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(child: Text("Upload your profile picture",style: TextStyle(fontSize: 16),)),
+                            
+                            Expanded(
+                              child: IconButton(
+                                
+                                onPressed: () async {
+                                  ImagePicker imagePicker = ImagePicker();
+                                  XFile? file = await imagePicker.pickImage(
+                                      source: ImageSource.gallery);
+                                  print(file?.path);
+                                  if (file == null) return;
+                                  String uniqueFileName = DateTime.now()
+                                      .microsecondsSinceEpoch
+                                      .toString();
+                                  Reference referenceRoot =
+                                      FirebaseStorage.instance.ref();
+                                  Reference referenceDirImages =
+                                      referenceRoot.child("images");
+                                  Reference referenceImageToUpload =
+                                      referenceDirImages.child(uniqueFileName);
+                                  try {
+                                    await referenceImageToUpload.putFile(
+                                      File(file.path),
+                                    );
+                                    imageUrl =
+                                        await referenceImageToUpload.getDownloadURL();
+                                  } catch (e) {}
+                                },
+                                icon: Icon(Icons.camera_alt),
+                              ),
+                            ),
+                          ],
                         ),
                         // ElevatedButton(
                         //   style: ElevatedButton.styleFrom(
@@ -433,7 +444,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                             } else if (imageUrl.isEmpty) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
-                                content: Text("Please Upload an image"),
+                                content: Text("Please wait for finishing the upload"),
                               ));
                               return;
                             } else if (signupFormKey.currentState!.validate()) {
