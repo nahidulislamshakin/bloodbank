@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(color: Colors.green, fontSize: 20),
               ),
               onTap: () {
-                 Navigator.push(context,
-                     MaterialPageRoute(builder: (context) => ProfilePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               },
             ),
             ListTile(
@@ -408,22 +408,30 @@ Widget Button(Widget icon, String iconName) {
 }
 
 Widget bloodGroupButton(String bloodGroup, BuildContext context) {
-  return Container(
-    width: 60,
-    height: 60,
-    // margin: EdgeInsets.all(5),
-    padding: const EdgeInsets.all(15),
-    decoration: const BoxDecoration(
-        //borderRadius: BorderRadius.circular(50),
-        shape: BoxShape.circle,
-        color: Colors.red),
-    child: FittedBox(
-      child: Text(
-        bloodGroup,
-        // style: TextStyle(fontSize: 25),
-        //textAlign: TextAlign.center,
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DonorList(bloodGroup: bloodGroup)));
+    },
+    child: Container(
+      width: 60,
+      height: 60,
+      // margin: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(15),
+      decoration: const BoxDecoration(
+          //borderRadius: BorderRadius.circular(50),
+          shape: BoxShape.circle,
+          color: Colors.red),
+      child: FittedBox(
+        child: Text(
+          bloodGroup,
+          // style: TextStyle(fontSize: 25),
+          //textAlign: TextAlign.center,
+        ),
       ),
+      //   color: Colors.red,
     ),
-    //   color: Colors.red,
   );
 }

@@ -74,7 +74,7 @@ Future<bool> checkIfEmailInUse(String emailAddress) async {
           if (FirebaseAuth.instance.currentUser != null) {
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => BecomeDonorPage()),
+                MaterialPageRoute(builder: (context) => HomePage()),
                 (route) => false);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

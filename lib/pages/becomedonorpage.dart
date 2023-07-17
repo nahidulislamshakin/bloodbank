@@ -47,6 +47,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
   TextEditingController? districtController;
 
   TextEditingController? passwordController;
+  bool isLoading = false;
 
   static const List<String> bloodGroupList = [
     "Blood Group",
@@ -190,11 +191,13 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(child: Text("Upload your profile picture",style: TextStyle(fontSize: 16),)),
-                            
+                            Expanded(
+                                child: Text(
+                              "Upload your profile picture",
+                              style: TextStyle(fontSize: 16),
+                            )),
                             Expanded(
                               child: IconButton(
-                                
                                 onPressed: () async {
                                   ImagePicker imagePicker = ImagePicker();
                                   XFile? file = await imagePicker.pickImage(
@@ -214,8 +217,8 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                                     await referenceImageToUpload.putFile(
                                       File(file.path),
                                     );
-                                    imageUrl =
-                                        await referenceImageToUpload.getDownloadURL();
+                                    imageUrl = await referenceImageToUpload
+                                        .getDownloadURL();
                                   } catch (e) {}
                                 },
                                 icon: Icon(Icons.camera_alt),
@@ -429,54 +432,67 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            if (bloodGroupDropDownValue == null ||
-                                bloodGroupDropDownValue == "Blood Group" ||
-                                districtDropDownValue == null ||
-                                districtDropDownValue == "Location") {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                    "Please Select Blood Group and Location"),
-                              ));
-                              return;
-                            } else if (imageUrl.isEmpty) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text("Please wait for finishing the upload"),
-                              ));
-                              return;
-                            } else if (signupFormKey.currentState!.validate()) {
-                              // await _authService.signUp(
-                              //     email: email, password: password);
-
-                              await _authService.sendData(
-                                  name,
-                                  FirebaseAuth.instance.currentUser!.email!,
-                                  phone,
-                                  bloodgroup,
-                                  password,
-                                  district,
-                                  imageUrl,
-                                  FirebaseAuth.instance.currentUser!.uid);
-                              if (FirebaseAuth.instance.currentUser != null)
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HomePage(),
+                        isLoading
+                            ?  CircularProgressIndicator() : ElevatedButton(
+                                onPressed: () async {
+                                  
+                                  if (bloodGroupDropDownValue == null ||
+                                      bloodGroupDropDownValue ==
+                                          "Blood Group" ||
+                                      districtDropDownValue == null ||
+                                      districtDropDownValue == "Location") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                          "Please Select Blood Group and Location"),
                                     ));
-                            } else {
-                              return null;
-                            }
+                                    return;
+                                  } else if (imageUrl.isEmpty) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                          "Please wait for finishing the upload"),
+                                    ));
+                                    return;
+                                  }  if (signupFormKey.currentState!
+                                      .validate()) {
+                                        setState(() {
+                                    isLoading = true;
+                                  });
+                                    // await _authService.signUp(
+                                    //     email: email, password: password);
 
-                            //   else valid = false;
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          child: const Text("Update"),
-                        ),
+                                    await _authService.sendData(
+                                        name,
+                                        FirebaseAuth
+                                            .instance.currentUser!.email!,
+                                        phone,
+                                        bloodgroup,
+                                        password,
+                                        district,
+                                        imageUrl,
+                                        FirebaseAuth.instance.currentUser!.uid);
+                                    if (FirebaseAuth.instance.currentUser !=
+                                        null)
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage(),
+                                          ));
+                                  } else {
+                                    return null;
+                                  }
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  //   else valid = false;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                ),
+                                child: const Text("Update"),
+                              ),
+                            
                       ],
                     ),
                   )

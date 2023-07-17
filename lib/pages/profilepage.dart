@@ -22,10 +22,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String? userName;
+  String? imageUrl;
   Future<void> getUserName() async {
     FirebaseFirestore.instance.collection("User").doc(uid).get().then((value) {
       setState(() {
         userName = value.get("Name").toString();
+        imageUrl = value.get("imageUrl").toString();
       });
     });
   }
@@ -54,13 +56,17 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 120,
-                height: 120,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.red,
+              Container(
+                 width: 120,
+                 height: 120,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: FittedBox(
+                    child: Image.network(
+                      imageUrl!, fit: BoxFit.cover,
+                      // loadingBuilder: (context, child, loadingProgress) =>
+                      //     CircularProgressIndicator(),
+                    ),
                   ),
                 ),
               ),
@@ -90,9 +96,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BecomeDonorPage(),),);
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BecomeDonorPage(),
+                    ),
+                  );
                 },
                 child: Text("Edit Profile"),
               ),
