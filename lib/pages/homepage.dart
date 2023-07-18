@@ -22,22 +22,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String? currentUserName;
+
+  String currentUserName = "";
   String? uid;
-  String? email;
+  String email = "";
+  String imageUrl = "";
+ 
 
   Future<void> getUser() async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final User currentUser = firebaseAuth.currentUser!;
+    final User currentUser = await firebaseAuth.currentUser!;
     // return currentUser;
     uid = currentUser.uid;
-    email = currentUser.email;
-  }
-
-  Future<void> getUserName() async {
-    FirebaseFirestore.instance.collection("User").doc(uid).get().then((value) {
+    email = currentUser.email!;
+    await FirebaseFirestore.instance
+        .collection("User")
+        .doc(uid)
+        .get()
+        .then((value) {
       setState(() {
         currentUserName = value.get("Name").toString();
+        imageUrl = value.get("imageUrl").toString();
       });
     });
   }
@@ -46,7 +51,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getUser();
-    getUserName();
   }
 
   @override
@@ -98,7 +102,7 @@ class _HomePageState extends State<HomePage> {
               ),
               title: const Text(
                 "Profile",
-                style: TextStyle(color: Colors.green, fontSize: 20),
+                style: TextStyle(color: Colors.black, fontSize: 17),
               ),
               onTap: () {
                 Navigator.push(context,
@@ -113,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               ),
               title: const Text(
                 "About",
-                style: TextStyle(color: Colors.green, fontSize: 20),
+                style: TextStyle(color: Colors.black, fontSize: 17),
               ),
               onTap: () {
                 Navigator.push(context,
@@ -131,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                   )),
               title: const Text(
                 "Sign out",
-                style: TextStyle(color: Colors.green, fontSize: 20),
+                style: TextStyle(color: Colors.black, fontSize: 17),
               ),
               onTap: () async {
                 await _authService.signOut();

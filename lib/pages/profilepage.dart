@@ -13,18 +13,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String? uid;
   String? email;
+    String userName = "";
+  String imageUrl = "";
   Future<void> getUser() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final User currentUser = firebaseAuth.currentUser!;
+    
+    final User currentUser = await FirebaseAuth.instance.currentUser!;
     // return currentUser;
     uid = currentUser.uid;
     email = currentUser.email;
-  }
-
-  String? userName;
-  String? imageUrl;
-  Future<void> getUserName() async {
-    FirebaseFirestore.instance.collection("User").doc(uid).get().then((value) {
+     await FirebaseFirestore.instance.collection("User").doc(uid).get().then((value) {
       setState(() {
         userName = value.get("Name").toString();
         imageUrl = value.get("imageUrl").toString();
@@ -32,11 +29,14 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+
+
+
   @override
   void initState() {
     super.initState();
     getUser();
-    getUserName();
+    
     // TODO: implement initState
   }
 
@@ -52,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Padding(
         padding: EdgeInsets.all(5),
         child: SingleChildScrollView(
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -61,9 +62,9 @@ class _ProfilePageState extends State<ProfilePage> {
                  height: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: FittedBox(
+                  child: imageUrl.isEmpty? CircularProgressIndicator(color: Colors.red,) : FittedBox(
                     child: Image.network(
-                      imageUrl!, fit: BoxFit.cover,
+                      imageUrl, fit: BoxFit.cover,
                       // loadingBuilder: (context, child, loadingProgress) =>
                       //     CircularProgressIndicator(),
                     ),
@@ -74,8 +75,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 10,
               ),
               FittedBox(
-                child: Text(
-                  "$userName",
+                child: userName.isEmpty ? CircularProgressIndicator(color: Colors.red,) :
+                  Text("$userName",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),

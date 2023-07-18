@@ -21,14 +21,22 @@ class MyApp extends StatelessWidget {
         Provider<Authentication>(
           create: (context) => Authentication(),
         ),
-        Provider<BecomeDonorPage>(
-          create: (context)=>BecomeDonorPage() )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Blood Bank",
-        home: FirebaseAuth.instance.currentUser!=null? HomePage():SignInPage(),
+        
+        home: GoApp(),
       ),
     );
+  }
+}
+
+ class GoApp extends StatelessWidget {
+   const GoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FirebaseAuth.instance.currentUser!=null?HomePage():SignInPage();
   }
 }

@@ -24,26 +24,27 @@ class _SignInPageState extends State<SignInPage> {
   final formKey = GlobalKey<FormState>();
 
   // Returns true if email address is in use.
-Future<bool> checkIfEmailInUse(String emailAddress) async {
-  try {
-    // Fetch sign-in methods for the email address
-    final list = await FirebaseAuth.instance.fetchSignInMethodsForEmail(emailAddress);
+  Future<bool> checkIfEmailInUse(String emailAddress) async {
+    try {
+      // Fetch sign-in methods for the email address
+      final list =
+          await FirebaseAuth.instance.fetchSignInMethodsForEmail(emailAddress);
 
-    // In case list is not empty
-    if (list.isNotEmpty) {
-      // Return true because there is an existing
-      // user using the email address
+      // In case list is not empty
+      if (list.isNotEmpty) {
+        // Return true because there is an existing
+        // user using the email address
+        return true;
+      } else {
+        // Return false because email adress is not in use
+        return false;
+      }
+    } catch (error) {
+      // Handle error
+      // ...
       return true;
-    } else {
-      // Return false because email adress is not in use
-      return false;
     }
-  } catch (error) {
-    // Handle error
-    // ...
-    return true;
   }
-}
 
   @override
   void initState() {
@@ -87,36 +88,46 @@ Future<bool> checkIfEmailInUse(String emailAddress) async {
         },
 
         onRecoverPassword: (email) async {
-          await _authentication.forgotPassword(email);
+          return await _authentication.forgotPassword(email);
         },
 
         onSignup: (signupData) async {
-          if (signupData.name == null || signupData.password == null) {
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          if (signupData.name == null ||
+              signupData.password == null ||
+              signupData.password!.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.red,
-              content: Text("Please input email and password"),
+              content: Text("Please input email and password correctly"),
             ));
             return "Please input email and password";
-          }
-          else if(await checkIfEmailInUse(signupData.name!)==true){
+          } else if (await checkIfEmailInUse(signupData.name!) == true) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.red,
               content: Text("Email is already used"),
             ));
             return Navigator.push(
                 context, MaterialPageRoute(builder: (context) => SignInPage()));
-
           }
           await _authentication.signUp(
               email: signupData.name!, password: signupData.password!);
           if (FirebaseAuth.instance.currentUser != null) {
-            Navigator.pushAndRemoveUntil(
+            return Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => BecomeDonorPage()),
                 (route) => false);
           }
         },
         userType: LoginUserType.email,
+        footer: "Developer : Nahidul Islam Shakin",
+        navigateBackAfterRecovery: true,
+        passwordValidator: (value) {
+          if (value!.length < 8) {
+            return "Password's leangth should be 8 or greater";
+          }
+        },
+        title: "Blood Bank",
+       // logo: Image.asset("image/applogo.jpg"),
+        //titleTag: "Signup",
         // additionalSignupFields: [
 
         // ],

@@ -19,8 +19,9 @@ class _AboutPageState extends State<AboutPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Developer : Nahidul Islam Shakin"),
-                    SelectableText("Contact : 01954841508"),
+                    Text("Developer : Nahidul Islam Shakin",style: TextStyle(fontSize: 17),),
+                    SelectableText("Contact : 01954841508",style: TextStyle(fontSize: 17),),
+                    SelectableText("Email : shakinhabib2000@gmail.com",style: TextStyle(fontSize: 17),),
                     SizedBox(
                       height: 50,
                     ),
