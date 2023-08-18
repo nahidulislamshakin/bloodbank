@@ -9,6 +9,7 @@ import 'package:bloodbank/pages/signinpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +22,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // final scaffoldKey = GlobalKey<ScaffoldState>();
 
   String currentUserName = "";
   String? uid;
   String email = "";
   String imageUrl = "";
- 
 
   Future<void> getUser() async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+   
     getUser();
   }
 
@@ -59,8 +60,9 @@ class _HomePageState extends State<HomePage> {
     final double _deviceHeight = MediaQuery.of(context).size.height;
     final _authService = Provider.of<Authentication>(context);
 
+
     return Scaffold(
-      key: scaffoldKey,
+      //  key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text("Blood Bank"),
@@ -74,35 +76,41 @@ class _HomePageState extends State<HomePage> {
         // backgroundColor: Colors.red,
         width: _deviceWidth / 1.5,
         child: ListView(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           children: [
             UserAccountsDrawerHeader(
               accountName: Text(
                 "$currentUserName",
                 style: GoogleFonts.openSans(
-                    textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black)),
+                  textStyle: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
               accountEmail: Text(
                 "$email",
                 style: GoogleFonts.openSans(
-                    textStyle: const TextStyle(color: Colors.black)),
+                  textStyle: TextStyle(fontSize: 15.sp, color: Colors.white),
+                ),
               ),
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [Colors.red, Colors.brown])),
+                gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [Colors.red, Colors.brown]),
+              ),
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.settings,
                 color: Colors.red,
-                size: 30,
+                size: 30.w,
               ),
-              title: const Text(
+              title: Text(
                 "Profile",
-                style: TextStyle(color: Colors.black, fontSize: 17),
+                style: TextStyle(color: Colors.black, fontSize: 17.sp),
               ),
               onTap: () {
                 Navigator.push(context,
@@ -110,32 +118,36 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.developer_board,
                 color: Colors.red,
-                size: 30,
+                size: 30.w,
               ),
-              title: const Text(
+              title: Text(
                 "About",
-                style: TextStyle(color: Colors.black, fontSize: 17),
+                style: TextStyle(color: Colors.black, fontSize: 17.sp),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutPage(),
+                  ),
+                );
                 // Navigator.pushReplacement(context,
                 //     MaterialPageRoute(builder: (context) => HomePage()));
               },
             ),
             ListTile(
               leading: SizedBox(
-                  width: 25,
-                  height: 25,
+                  width: 25.w,
+                  height: 25.h,
                   child: Image.asset(
                     "images/icons/logout.png",
                   )),
-              title: const Text(
+              title: Text(
                 "Sign out",
-                style: TextStyle(color: Colors.black, fontSize: 17),
+                style: TextStyle(color: Colors.black, fontSize: 17.sp),
               ),
               onTap: () async {
                 await _authService.signOut();
@@ -149,243 +161,162 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ],
-          // child: Column(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //   //  MyHeaderDrawer();
-          //     Container(
-          //       width: double.infinity,
-          //       height: _deviceHeight / 3,
-
-          //       // color: Colors.red,
-          //       decoration: BoxDecoration(
-          //         shape: BoxShape.rectangle,
-          //         color: Colors.red,
-          //       ),
-          //       child: FittedBox(
-          //         fit: BoxFit.scaleDown,
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.center,
-          //           mainAxisAlignment: MainAxisAlignment.end,
-          //           children: [
-          //             Padding(
-          //               padding: const EdgeInsets.only(left:8.0),
-          //               child: Text(
-          //                 "$currentUserName",
-          //                 style: TextStyle(fontSize: 20),
-          //               ),
-          //             ),
-          //             Padding(
-          //               padding: const EdgeInsets.only(left:8.0),
-          //               child: Text(
-          //                 "$email",
-          //                 style: TextStyle(fontSize: 16),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //     SizedBox(
-          //       height: 5,
-          //     ),
-          //     Container(
-          //       padding: EdgeInsets.all(5),
-          //       child: Column(
-          //         children: [
-          //           GestureDetector(
-          //             onTap: () async{
-          //               await _authService.signOut();
-          //               if (FirebaseAuth.instance.currentUser == null) {
-          //                 Navigator.pushAndRemoveUntil(
-          //                     context,
-          //                     MaterialPageRoute(
-          //                         builder: (context) => SignInPage()),
-          //                     (route) => false);
-          //               }
-          //             },
-          //             child: Text(
-          //               "Sign Out",
-          //               style: TextStyle(fontSize: 20),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ),
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(5),
+          padding: EdgeInsets.all(5.w),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          // Expanded(
-                          //   child: Container(
-                          //     width: 50,
-                          //     height: 50,
-                          //     color: Colors.red,
-                          //   ),
-                          // ),
-
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RequestPage())),
-                                child: Button(
-                                    // Image.asset("images/icons/blood_request.png"), "Request")
-                                    Container(
-                                      // color: Colors.red.shade200,
-                                      // width: 50,
-                                      height: 50,
-                                      child: Image.asset(
-                                          "images/icons/blood_request.png"),
-                                    ),
-                                    "Request")),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RequestPage(),
                           ),
-
-                          const SizedBox(
-                            width: 10,
-                          ),
-
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FeedPage())),
-                                child: Button(
-                                    // Image.asset("images/icons/blood_request.png"), "Request")
-                                    Container(
-                                      // color: Colors.red.shade200,
-                                      // width: 50,
-                                      height: 50,
-                                      child: Icon(Icons.feed),
-                                    ),
-                                    "Feed")),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            OrganizationPage())),
-                                child: Button(
-                                    // Image.asset("images/icons/blood_request.png"), "Request")
-                                    Container(
-                                      // color: Colors.red.shade200,
-                                      // width: 50,
-                                      height: 50,
-                                      child: Image.asset(
-                                          "images/icons/organization-chart.png"),
-                                    ),
-                                    "Organization")),
-                          )
-                        ],
+                        ),
+                        child: Button(
+                            // Image.asset("images/icons/blood_request.png"), "Request")
+                            Container(
+                              // color: Colors.red.shade200,
+                              width: _deviceHeight>500? 50.w:60.w,
+                              height: _deviceHeight>500? 50.h:60.h,
+                              child: Image.asset(
+                                  "images/icons/blood_request.png"),
+                            ),
+                            "Request", context),
                       ),
-                      const SizedBox(
-                        height: 10,
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FeedPage(),
+                          ),
+                        ),
+                        child: Button(
+                            Container(
+                              width: 50.w,
+                              height: 50.h,
+                              child: Icon(Icons.feed,size: 50.h,),
+                            ),
+                            "Feed", context),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AmbulancePage())),
-                                child: Button(
-                                    // Image.asset("images/icons/blood_request.png"), "Request")
-                                    Container(
-                                      // color: Colors.red.shade200,
-                                      // width: 50,
-                                      height: 50,
-                                      child: Image.asset(
-                                          "images/icons/ambulance.png"),
-                                    ),
-                                    "Ambulance")),
-                          )
-                        ],
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrganizationPage(),
+                          ),
+                        ),
+                        child: Button(
+                            Container(
+                              width: 50.w,
+                              height: 50.h,
+                              child: Image.asset(
+                                  "images/icons/organization-chart.png"),
+                            ),
+                            "Organization", context),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 10.h,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AmbulancePage())),
+                          child: Button(
+                              // Image.asset("images/icons/blood_request.png"), "Request")
+                              Container(
+                                // color: Colors.red.shade200,
+                                // width: 50,
+                                height: 50.h,
+                                child: Image.asset(
+                                    "images/icons/ambulance.png"),
+                              ),
+                              "Ambulance", context),),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10.h,
                 ),
                 Container(
-                  width: _deviceWidth,
+                  //    width: _deviceWidth,
+                  //  height: 180,
+                  //  color: Colors.green,
+                  //  height: _deviceHeight/3,
                   child: Column(
                     children: [
-                      // ElevatedButton(
-                      //   style:ElevatedButton.styleFrom(
-                      //     backgroundColor: Colors.red,
-                      //   ),
-                      //   onPressed: (){
-                      //   Navigator.push(context, MaterialPageRoute(builder: (context)=>DonorList()));
-                      // },
-                      //  child: Text("Find Donor",
-                      //  style: TextStyle(fontSize: 20),)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Wrap(
+                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           bloodGroupButton("A+", context),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           bloodGroupButton("B+", context),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           bloodGroupButton("AB+", context),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           bloodGroupButton("O+", context),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 10.h,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Wrap(
+//                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           bloodGroupButton("A-", context),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           bloodGroupButton("B-", context),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           bloodGroupButton("AB-", context),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           bloodGroupButton("O-", context),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                FittedBox(
-                  fit: BoxFit.cover,
-                  child: Image.asset("images/bloodchart.jpg"),
-                ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     Container(
-                //       margin: EdgeInsets.only(top: 50),
-                //       decoration: BoxDecoration(
-                //         border: Border.all(),
-                //         color: Colors.red,
-
-                //       ),
-                //       child: Text("Nahidul Islam Shakin"),
-                //     )
-                //   ],
-                // )
+                SizedBox(
+                 height: 10.h,
+                    ),
+                    Image.asset(
+                 "images/bloodchart.jpg",
+                    ),
               ],
             ),
           ),
@@ -395,43 +326,54 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget Button(Widget icon, String iconName) {
+Widget Button(Widget icon, String iconName, BuildContext context) {
+  final _deviceHeight = MediaQuery.of(context).size.width;
+  final _deviceWidth = MediaQuery.of(context).size.width;
   return Container(
+   // color: Colors.red,
+    width: 100.w,
+    height: _deviceWidth>400? 150.h:90.h,
+    decoration: BoxDecoration(
       color: Colors.red,
-      width: 100,
-
-      // color: Colors.red.shade200,
-      // width: 50,
-      height: 100,
-      child: Column(
-        children: [
-          icon,
-          FittedBox(child: Text(iconName)),
-        ],
-      ));
+      borderRadius: BorderRadius.all(Radius.circular(20),),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        icon,
+        FittedBox(
+          child: Text(
+            iconName,
+            style: TextStyle(fontSize: 17.sp),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget bloodGroupButton(String bloodGroup, BuildContext context) {
   return GestureDetector(
     onTap: () {
+      
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DonorList(bloodGroup: bloodGroup)));
+        context,
+        MaterialPageRoute(
+          builder: (context) => DonorList(bloodGroup: bloodGroup),
+        ),
+      );
     },
     child: Container(
-      width: 60,
-      height: 60,
-      // margin: EdgeInsets.all(5),
-      padding: const EdgeInsets.all(15),
+      width: 70.w,
+      height: 70.h,
+
       decoration: const BoxDecoration(
-          //borderRadius: BorderRadius.circular(50),
           shape: BoxShape.circle,
           color: Colors.red),
-      child: FittedBox(
+      child: Center(
         child: Text(
           bloodGroup,
-          // style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: 22.sp),
           //textAlign: TextAlign.center,
         ),
       ),

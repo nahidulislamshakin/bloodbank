@@ -68,91 +68,92 @@ class _SignInPageState extends State<SignInPage> {
     final _authentication = Provider.of<Authentication>(context);
     return Scaffold(
       backgroundColor: Colors.blue,
-      body: FlutterLogin(
-        onLogin: (loginData) async {
-          await _authentication.login(
-              email: loginData.name, password: loginData.password);
-          if (FirebaseAuth.instance.currentUser != null) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-                (route) => false);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: Colors.red,
-              content: Text("Invalid email or password"),
-            ));
-            return Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SignInPage()));
-          }
-        },
+      body:  FlutterLogin(
+              onLogin: (loginData) async {
+                await _authentication.login(
+                    email: loginData.name, password: loginData.password);
+                if (FirebaseAuth.instance.currentUser != null) {
+                  return Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                      (route) => false);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text("Invalid email or password"),
+                  ));
+                  return Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignInPage()));
+                }
+              },
 
-        onRecoverPassword: (email) async {
-          return await _authentication.forgotPassword(email);
-        },
+              onRecoverPassword: (email) async {
+                return await _authentication.forgotPassword(email);
+              },
 
-        onSignup: (signupData) async {
-          if (signupData.name == null ||
-              signupData.password == null ||
-              signupData.password!.length < 8) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: Colors.red,
-              content: Text("Please input email and password correctly"),
-            ));
-            return "Please input email and password";
-          } else if (await checkIfEmailInUse(signupData.name!) == true) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: Colors.red,
-              content: Text("Email is already used"),
-            ));
-            return Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SignInPage()));
-          }
-          await _authentication.signUp(
-              email: signupData.name!, password: signupData.password!);
-          if (FirebaseAuth.instance.currentUser != null) {
-            return Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => BecomeDonorPage()),
-                (route) => false);
-          }
-        },
-        userType: LoginUserType.email,
-        footer: "Developer : Nahidul Islam Shakin",
-        navigateBackAfterRecovery: true,
-        passwordValidator: (value) {
-          if (value!.length < 8) {
-            return "Password's leangth should be 8 or greater";
-          }
-        },
-        title: "Blood Bank",
-       // logo: Image.asset("image/applogo.jpg"),
-        //titleTag: "Signup",
-        // additionalSignupFields: [
+              onSignup: (signupData) async {
+                if (signupData.name == null ||
+                    signupData.password == null ||
+                    signupData.password!.length < 8) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text("Please input email and password correctly"),
+                  ));
+                  return "Please input email and password";
+                } else if (await checkIfEmailInUse(signupData.name!) == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text("Email is already used"),
+                  ));
+                  return Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignInPage()));
+                }
+                await _authentication.signUp(
+                    email: signupData.name!, password: signupData.password!);
+                if (FirebaseAuth.instance.currentUser != null) {
+                  return Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BecomeDonorPage()),
+                      (route) => false);
+                }
+              },
+              userType: LoginUserType.email,
+              footer: "Developer : Nahidul Islam Shakin",
+              navigateBackAfterRecovery: true,
+              passwordValidator: (value) {
+                if (value!.length < 8) {
+                  return "Password's leangth should be 8 or greater";
+                }
+              },
+              title: "Blood Bank",
+              // logo: Image.asset("image/applogo.jpg"),
+              //titleTag: "Signup",
+              // additionalSignupFields: [
 
-        // ],
-        // children: [
-        //   TextFormField(
-        //     decoration: const InputDecoration(
-        //       border: OutlineInputBorder(
-        //           borderRadius: BorderRadius.all(
-        //             Radius.circular(15),
-        //           ),
-        //           borderSide: BorderSide(color: Colors.red)),
-        //       labelText: "Full Name",
-        //       // prefix: Text("Name"),
-        //     ),
-        //     validator: (value) {
-        //       if (value == null || value.isEmpty) {
-        //         return "Invalid Name";
-        //       } else {
-        //         name = value;
-        //       }
-        //     },
-        //     controller: nameController,
-        //   ),
-        // ],
-      ),
+              // ],
+              // children: [
+              //   TextFormField(
+              //     decoration: const InputDecoration(
+              //       border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.all(
+              //             Radius.circular(15),
+              //           ),
+              //           borderSide: BorderSide(color: Colors.red)),
+              //       labelText: "Full Name",
+              //       // prefix: Text("Name"),
+              //     ),
+              //     validator: (value) {
+              //       if (value == null || value.isEmpty) {
+              //         return "Invalid Name";
+              //       } else {
+              //         name = value;
+              //       }
+              //     },
+              //     controller: nameController,
+              //   ),
+              // ],
+            ),
     );
     // return Scaffold(
     //   appBar: AppBar(

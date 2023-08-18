@@ -2,6 +2,7 @@ import 'package:bloodbank/pages/becomedonorpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,7 +15,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? uid;
   String? email;
     String userName = "";
-  String imageUrl = "";
+   String imageUrl = "";
   Future<void> getUser() async {
     
     final User currentUser = await FirebaseAuth.instance.currentUser!;
@@ -54,35 +55,35 @@ class _ProfilePageState extends State<ProfilePage> {
         child: SingleChildScrollView(
 
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+           // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                 width: 120,
-                 height: 120,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: imageUrl.isEmpty? CircularProgressIndicator(color: Colors.red,) : FittedBox(
-                    child: Image.network(
-                      imageUrl, fit: BoxFit.cover,
-                      // loadingBuilder: (context, child, loadingProgress) =>
-                      //     CircularProgressIndicator(),
-                    ),
+                 width: 120.w,
+                 height: 120.h,
+                child: 
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(120.r),
+                  child: imageUrl.isEmpty? CircularProgressIndicator(color: Colors.red,) : Image.network(
+                    imageUrl, 
+                    fit: BoxFit.cover,
+                    // loadingBuilder: (context, child, loadingProgress) =>
+                    //     CircularProgressIndicator(),
                   ),
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 10.h,
               ),
               FittedBox(
                 child: userName.isEmpty ? CircularProgressIndicator(color: Colors.red,) :
                   Text("$userName",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
               Divider(),
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -91,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   shape: RoundedRectangleBorder(
                     side: BorderSide.none,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(15),
+                      Radius.circular(15.r),
                     ),
                   ),
                 ),
@@ -103,10 +104,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   );
                 },
-                child: Text("Edit Profile"),
+                child: Text("Edit Profile",style: TextStyle(fontSize: 18.sp),),
               ),
               SizedBox(
-                height: 10,
+                height: 10.h,
               )
             ],
           ),
