@@ -9,7 +9,6 @@ import 'package:bloodbank/pages/signinpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                 "$currentUserName",
                 style: GoogleFonts.openSans(
                   textStyle: TextStyle(
-                      fontSize: 20.sp,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
@@ -92,7 +91,7 @@ class _HomePageState extends State<HomePage> {
               accountEmail: Text(
                 "$email",
                 style: GoogleFonts.openSans(
-                  textStyle: TextStyle(fontSize: 15.sp, color: Colors.white),
+                  textStyle: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
               decoration: const BoxDecoration(
@@ -106,11 +105,11 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(
                 Icons.settings,
                 color: Colors.red,
-                size: 30.w,
+                size: 30,
               ),
               title: Text(
                 "Profile",
-                style: TextStyle(color: Colors.black, fontSize: 17.sp),
+                style: TextStyle(color: Colors.black, fontSize: 17),
               ),
               onTap: () {
                 Navigator.push(context,
@@ -121,11 +120,11 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(
                 Icons.developer_board,
                 color: Colors.red,
-                size: 30.w,
+                size: 30,
               ),
               title: Text(
                 "About",
-                style: TextStyle(color: Colors.black, fontSize: 17.sp),
+                style: TextStyle(color: Colors.black, fontSize: 17),
               ),
               onTap: () {
                 Navigator.push(
@@ -140,14 +139,14 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: SizedBox(
-                  width: 25.w,
-                  height: 25.h,
+                  width: 25,
+                  height: 25,
                   child: Image.asset(
                     "images/icons/logout.png",
                   )),
               title: Text(
                 "Sign out",
-                style: TextStyle(color: Colors.black, fontSize: 17.sp),
+                style: TextStyle(color: Colors.black, fontSize: 17),
               ),
               onTap: () async {
                 await _authService.signOut();
@@ -165,7 +164,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(5.w),
+          padding: EdgeInsets.all(5),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -184,8 +183,8 @@ class _HomePageState extends State<HomePage> {
                             // Image.asset("images/icons/blood_request.png"), "Request")
                             Container(
                               // color: Colors.red.shade200,
-                              width: _deviceHeight>500? 50.w:60.w,
-                              height: _deviceHeight>500? 50.h:60.h,
+                              width: _deviceHeight>500? 50:60,
+                              height: _deviceHeight>500? 50:60,
                               child: Image.asset(
                                   "images/icons/blood_request.png"),
                             ),
@@ -193,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(
-                      width: 10.w,
+                      width: 10,
                     ),
                     Expanded(
                       child: GestureDetector(
@@ -205,15 +204,15 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Button(
                             Container(
-                              width: 50.w,
-                              height: 50.h,
-                              child: Icon(Icons.feed,size: 50.h,),
+                              width: 50,
+                              height: 50,
+                              child: Icon(Icons.feed,size: 50,),
                             ),
                             "Feed", context),
                       ),
                     ),
                     SizedBox(
-                      width: 10.w,
+                      width: 10,
                     ),
                     Expanded(
                       child: GestureDetector(
@@ -225,8 +224,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Button(
                             Container(
-                              width: 50.w,
-                              height: 50.h,
+                              width: 50,
+                              height: 50,
                               child: Image.asset(
                                   "images/icons/organization-chart.png"),
                             ),
@@ -236,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 SizedBox(
-                  height: 10.h,
+                  height: 10,
                 ),
                 Row(
                   children: [
@@ -251,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 // color: Colors.red.shade200,
                                 // width: 50,
-                                height: 50.h,
+                                height: 50,
                                 child: Image.asset(
                                     "images/icons/ambulance.png"),
                               ),
@@ -260,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 SizedBox(
-                  height: 10.h,
+                  height: 10,
                 ),
                 Container(
                   //    width: _deviceWidth,
@@ -274,36 +273,36 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           bloodGroupButton("A+", context),
                           SizedBox(
-                            width: 10.w,
+                            width: 10,
                           ),
                           bloodGroupButton("B+", context),
                           SizedBox(
-                            width: 10.w,
+                            width: 10,
                           ),
                           bloodGroupButton("AB+", context),
                           SizedBox(
-                            width: 10.w,
+                            width: 10,
                           ),
                           bloodGroupButton("O+", context),
                         ],
                       ),
                       SizedBox(
-                        height: 10.h,
+                        height: 10,
                       ),
                       Wrap(
 //                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           bloodGroupButton("A-", context),
                           SizedBox(
-                            width: 10.w,
+                            width: 10,
                           ),
                           bloodGroupButton("B-", context),
                           SizedBox(
-                            width: 10.w,
+                            width: 10,
                           ),
                           bloodGroupButton("AB-", context),
                           SizedBox(
-                            width: 10.w,
+                            width: 10,
                           ),
                           bloodGroupButton("O-", context),
                         ],
@@ -312,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(
-                 height: 10.h,
+                 height: 10,
                     ),
                     Image.asset(
                  "images/bloodchart.jpg",
@@ -331,8 +330,8 @@ Widget Button(Widget icon, String iconName, BuildContext context) {
   final _deviceWidth = MediaQuery.of(context).size.width;
   return Container(
    // color: Colors.red,
-    width: 100.w,
-    height: _deviceWidth>400? 150.h:90.h,
+    width: 100,
+    height: _deviceWidth>400? 150:90,
     decoration: BoxDecoration(
       color: Colors.red,
       borderRadius: BorderRadius.all(Radius.circular(20),),
@@ -344,7 +343,7 @@ Widget Button(Widget icon, String iconName, BuildContext context) {
         FittedBox(
           child: Text(
             iconName,
-            style: TextStyle(fontSize: 17.sp),
+            style: TextStyle(fontSize: 17),
           ),
         ),
       ],
@@ -364,8 +363,8 @@ Widget bloodGroupButton(String bloodGroup, BuildContext context) {
       );
     },
     child: Container(
-      width: 70.w,
-      height: 70.h,
+      width: 70,
+      height: 70,
 
       decoration: const BoxDecoration(
           shape: BoxShape.circle,
@@ -373,7 +372,7 @@ Widget bloodGroupButton(String bloodGroup, BuildContext context) {
       child: Center(
         child: Text(
           bloodGroup,
-          style: TextStyle(fontSize: 22.sp),
+          style: TextStyle(fontSize: 22),
           //textAlign: TextAlign.center,
         ),
       ),

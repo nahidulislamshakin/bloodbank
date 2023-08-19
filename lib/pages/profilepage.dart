@@ -2,7 +2,6 @@ import 'package:bloodbank/pages/becomedonorpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -59,11 +58,11 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                 width: 120.w,
-                 height: 120.h,
+                 width: 120,
+                 height: 120,
                 child: 
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(120.r),
+                  borderRadius: BorderRadius.circular(120),
                   child: imageUrl.isEmpty? CircularProgressIndicator(color: Colors.red,) : Image.network(
                     imageUrl, 
                     fit: BoxFit.cover,
@@ -73,17 +72,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SizedBox(
-                height: 10.h,
+                height: 10,
               ),
               FittedBox(
                 child: userName.isEmpty ? CircularProgressIndicator(color: Colors.red,) :
                   Text("$userName",
-                  style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               Divider(),
               SizedBox(
-                height: 20.h,
+                height: 20,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -92,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   shape: RoundedRectangleBorder(
                     side: BorderSide.none,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(15.r),
+                      Radius.circular(15),
                     ),
                   ),
                 ),
@@ -104,10 +103,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   );
                 },
-                child: Text("Edit Profile",style: TextStyle(fontSize: 18.sp),),
+                child: Text("Edit Profile",style: TextStyle(fontSize: 18),),
               ),
               SizedBox(
-                height: 10.h,
+                height: 10,
               )
             ],
           ),
