@@ -78,6 +78,7 @@ class _SignInPageState extends State<SignInPage> {
                       MaterialPageRoute(builder: (context) => HomePage()),
                       (route) => false);
                 } else {
+                  print("Current user is null");
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Colors.red,
                     content: Text("Invalid email or password"),
@@ -127,6 +128,10 @@ class _SignInPageState extends State<SignInPage> {
                 }
               },
               title: "Blood Bank",
+              
+              loginAfterSignUp: true,
+              scrollable: true,
+              
               // logo: Image.asset("image/applogo.jpg"),
               //titleTag: "Signup",
               // additionalSignupFields: [

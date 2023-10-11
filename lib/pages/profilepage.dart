@@ -63,11 +63,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: 
                 ClipRRect(
                   borderRadius: BorderRadius.circular(120),
-                  child: imageUrl.isEmpty? CircularProgressIndicator(color: Colors.red,) : Image.network(
+                  child: imageUrl.isEmpty? CircularProgressIndicator(color: Colors.red,) : 
+                  Image.network(
                     imageUrl, 
                     fit: BoxFit.cover,
-                    // loadingBuilder: (context, child, loadingProgress) =>
-                    //     CircularProgressIndicator(),
                   ),
                 ),
               ),
