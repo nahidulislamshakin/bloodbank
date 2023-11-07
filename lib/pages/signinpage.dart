@@ -67,8 +67,9 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     final _authentication = Provider.of<Authentication>(context);
     return Scaffold(
-      backgroundColor: Colors.blue,
+      //backgroundColor: Colors.blue,
       body:  FlutterLogin(
+
               onLogin: (loginData) async {
                 await _authentication.login(
                     email: loginData.name, password: loginData.password);

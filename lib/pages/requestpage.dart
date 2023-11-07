@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../firebase/authentication.dart';
+import 'homepage.dart';
 
 class RequestPage extends StatefulWidget {
   @override
@@ -14,9 +19,94 @@ class _RequestPageState extends State<RequestPage> {
   String gender = "";
   String bloodGroup = "";
   String date = "";
-  String address = "";
+  String district = "";
   String contactNumber = "";
   String patientDescription = "";
+
+
+  static const List<String> bloodGroupList = [
+    "Blood Group",
+    "A+",
+    "B+",
+    "AB+",
+    "O+",
+    "A-",
+    "B-",
+    "AB-",
+    "O-"
+  ];
+
+  static const List<String> districtList = [
+    "Location",
+    "Dhaka",
+    "Faridpur",
+    "Gazipur",
+    "Gopalganj",
+    "Jamalpur",
+    "Kishoreganj",
+    "Madaripur",
+    "Manikganj",
+    "Munshiganj",
+    "Mymensingh",
+    "Narayanganj",
+    "Narsingdi",
+    "Netrokona",
+    "Rajbari",
+    "Shariatpur",
+    "Sherpur",
+    "Tangail",
+    "Bogra",
+    "Joypurhat",
+    "Naogaon",
+    "Natore",
+    "Nawabganj",
+    "Pabna",
+    "Rajshahi",
+    "Sirajgonj",
+    "Dinajpur",
+    "Gaibandha",
+    "Kurigram",
+    "Lalmonirhat",
+    "Nilphamari",
+    "Panchagarh",
+    "Rangpur",
+    "Thakurgaon",
+    "Barguna ",
+    "Barisal",
+    "Bhola",
+    "Jhalokati",
+    "Patuakhali",
+    "Pirojpur",
+    "Bandarban",
+    "Brahmanbaria",
+    "Chandpur",
+    "Chittagong",
+    "Comilla",
+    "Cox''s Bazar",
+    "Feni",
+    "Khagrachari",
+    "Lakshmipur",
+    "Noakhali",
+    "Rangamati",
+    "Habiganj",
+    "Maulvibazar",
+    "Sunamganj",
+    "Sylhet",
+    "Bagerhat",
+    "Chuadanga",
+    "Jessore",
+    "Jhenaidah",
+    "Khulna",
+    "Kushtia",
+    "Magura",
+    "Meherpur",
+    "Narail",
+    "Satkhira"
+  ];
+
+
+  String bloodGroupDropDownValue = bloodGroupList.first;
+  String districtDropDownValue = districtList.first;
 
   TextEditingController? patientNameController;
   TextEditingController? ageController;
@@ -60,6 +150,8 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _authService = Provider.of<Authentication>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Make Request for Blood"),
@@ -76,56 +168,28 @@ class _RequestPageState extends State<RequestPage> {
                   key: requestFormKey,
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Text(
-                                "Upload your profile picture",
-                                style: TextStyle(fontSize: 16),
-                              )),
-                          Expanded(
-                            child: IconButton(
-                              onPressed: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                    source: ImageSource.gallery);
-                                print(file?.path);
-                                if (file == null) return;
-                                String uniqueFileName = DateTime.now()
-                                    .microsecondsSinceEpoch
-                                    .toString();
-                                Reference referenceRoot =
-                                FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                referenceRoot.child("images");
-                                Reference referenceImageToUpload =
-                                referenceDirImages.child(uniqueFileName);
-                                try {
-                                  await referenceImageToUpload.putFile(
-                                    File(file.path),
-                                  );
-                                  imageUrl = await referenceImageToUpload
-                                      .getDownloadURL();
-                                } catch (e) {}
-                              },
-                              icon: Icon(Icons.camera_alt),
+
+
+                      TextFormField(
+                        decoration:  InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.blue,
                             ),
                           ),
-                        ],
-                      ),
-
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                              borderSide: BorderSide(color: Colors.red)),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 2.0,
+                            ),
+                          ),
+                          // border: OutlineInputBorder(
+                          //     borderRadius: BorderRadius.all(
+                          //       Radius.circular(15),
+                          //     ),
+                          //     borderSide: BorderSide(color: Colors.red)),
                           labelText: "Full Name",
                           // prefix: Text("Name"),
                         ),
@@ -133,41 +197,94 @@ class _RequestPageState extends State<RequestPage> {
                           if (value == null || value.isEmpty) {
                             return "Invalid Name";
                           } else {
-                            name = value;
+                            patientName = value;
                           }
                         },
-                        controller: nameController,
+                        controller: patientNameController,
                       ),
                       const SizedBox(
                         height: 8,
                       ),
 
-                      const SizedBox(
-                        height: 8,
-                      ),
+
                       TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(15))),
-                          labelText: "Phone",
+                        decoration:  InputDecoration(
+
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 2.0,
+                            ),
+                          ),
+                           labelText: "Age",
                           // prefix: Text("Name"),
                         ),
+
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Invalid Phone Number";
+                            return "Invalid Age";
                           } else {
-                            phone = value;
+                            age = value;
                           }
                         },
-                        controller: phoneController,
+                        controller: ageController,
+                        keyboardType: TextInputType.number,
+
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      TextFormField(
+                        decoration:  InputDecoration(
+
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 2.0,
+                            ),
+                          ),
+
+                          // border: OutlineInputBorder(
+                          //
+                          //     borderRadius:
+                          //     BorderRadius.all(Radius.circular(15))),
+                          labelText: "Contact Number",
+                          // prefix: Text("Name"),
+                        ),
+
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Invalid Contact Number";
+                          } else {
+                            contactNumber = value;
+                          }
+                        },
+                        controller: contactNumberController,
+                        keyboardType: TextInputType.number,
+
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            border: Border.all(),
+
+                            border: Border.all(color: Colors.red),
                             borderRadius:
                             const BorderRadius.all(Radius.circular(15))),
                         //  padding: const EdgeInsets.only(left: 5,right: 5),
@@ -193,7 +310,7 @@ class _RequestPageState extends State<RequestPage> {
                                 setState(() {
                                   bloodGroupDropDownValue = value!;
                                 });
-                                bloodgroup = value;
+                                bloodGroup = value;
                               },
                               items: bloodGroupList
                                   .map<DropdownMenuItem>((String value) {
@@ -215,7 +332,7 @@ class _RequestPageState extends State<RequestPage> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            border: Border.all(),
+                            border: Border.all(color: Colors.red),
                             borderRadius:
                             const BorderRadius.all(Radius.circular(15))),
                         //  padding: const EdgeInsets.only(left: 5,right: 5),
@@ -264,17 +381,40 @@ class _RequestPageState extends State<RequestPage> {
                       const SizedBox(
                         height: 8,
                       ),
+
+                      TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        minLines: 3,
+                        decoration: const InputDecoration(
+
+                          contentPadding: const EdgeInsets.symmetric(vertical: 35.0, horizontal: 15.0),
+
+                          border: OutlineInputBorder(
+
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15))),
+                        labelText: "Description",
+                          // prefix: Text("Name"),
+                        ),
+
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please give description with date";
+                          } else {
+                            patientDescription = value;
+                          }
+                        },
+                        controller: patientDescriptionController,
+
+
+                      ),
                       const SizedBox(
-                        height: 10,
+                        height: 8,
                       ),
 
-                      SizedBox(
-                        height: 10,
-                      ),
-                      isLoading
-                          ?  CircularProgressIndicator() : ElevatedButton(
+                     ElevatedButton(
                         onPressed: () async {
-
                           if (bloodGroupDropDownValue == null ||
                               bloodGroupDropDownValue ==
                                   "Blood Group" ||
@@ -286,44 +426,29 @@ class _RequestPageState extends State<RequestPage> {
                                   "Please Select Blood Group and Location"),
                             ));
                             return;
-                          } else if (imageUrl.isEmpty) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
-                              content: Text(
-                                  "Please wait for finishing the upload"),
-                            ));
-                            return;
-                          }  if (signupFormKey.currentState!
-                              .validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            // await _authService.signUp(
-                            //     email: email, password: password);
-
-                            await _authService.sendData(
-                                name,
-                                FirebaseAuth
-                                    .instance.currentUser!.email!,
-                                phone,
-                                bloodgroup,
-                                password,
-                                district,
-                                imageUrl,
-                                FirebaseAuth.instance.currentUser!.uid);
-                            if (FirebaseAuth.instance.currentUser !=
-                                null)
+                          }
+                          else
+                            {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => HomePage(),
                                   ));
-                          } else {
-                            return null;
-                          }
-                          setState(() {
-                            isLoading = false;
-                          });
+                            }
+
+
+                          // await _authService.sendData(
+                          //     patientName,
+                          //     FirebaseAuth
+                          //         .instance.currentUser!.email!,
+                          //     contactNumber,
+                          //     bloodGroup,
+                          //
+                          //     district, null, null, null, null
+                          //
+                          //    );
+
+
                           //   else valid = false;
                         },
                         style: ElevatedButton.styleFrom(
