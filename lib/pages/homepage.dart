@@ -13,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../firebase/authentication.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       "$currentUserName",
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
@@ -89,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                     accountEmail: Text(
                       "$email",
                       style: GoogleFonts.openSans(
-                        textStyle: TextStyle(fontSize: 15, color: Colors.white),
+                        textStyle: TextStyle(fontSize: 15.sp, color: Colors.white),
                       ),
                     ),
                     decoration: const BoxDecoration(
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: Text(
                       "Profile",
-                      style: TextStyle(color: Colors.black, fontSize: 17),
+                      style: TextStyle(color: Colors.black, fontSize: 17.sp),
                     ),
                     onTap: () {
                       Navigator.push(
@@ -124,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: Text(
                       "About",
-                      style: TextStyle(color: Colors.black, fontSize: 17),
+                      style: TextStyle(color: Colors.black, fontSize: 17.sp),
                     ),
                     onTap: () {
                       Navigator.push(
@@ -139,14 +140,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ListTile(
                     leading: SizedBox(
-                        width: 25,
-                        height: 25,
+                        width: 25.w,
+                        height: 25.h,
                         child: Image.asset(
                           "images/icons/logout.png",
                         )),
                     title: Text(
                       "Sign out",
-                      style: TextStyle(color: Colors.black, fontSize: 17),
+                      style: TextStyle(color: Colors.black, fontSize: 17.sp),
                     ),
                     onTap: () async {
                       await _authService.signOut();
@@ -186,8 +187,8 @@ class _HomePageState extends State<HomePage> {
                                   // Image.asset("images/icons/blood_request.png"), "Request")
                                   Container(
                                     // color: Colors.red.shade200,
-                                    width: 50,
-                                    height: 50,
+                                    width: 50.w,
+                                    height: 50.h,
                                     child: Image.asset(
                                         "images/icons/blood_request.png"),
                                   ),
@@ -196,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           SizedBox(
-                            width: 10,
+                            width: 10.w,
                           ),
                           Expanded(
                             child: GestureDetector(
@@ -208,8 +209,8 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: Button(
                                   Container(
-                                    width: 50,
-                                    height: 50,
+                                    width: 50.w,
+                                    height: 50.h,
                                     child: Icon(
                                       Icons.feed,
                                       size: 50,
@@ -220,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           SizedBox(
-                            width: 10,
+                            width: 10.w,
                           ),
                           Expanded(
                             child: GestureDetector(
@@ -232,8 +233,8 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: Button(
                                   Container(
-                                    width: 50,
-                                    height: 50,
+                                    width: 50.w,
+                                    height: 50.h,
                                     child: Image.asset(
                                         "images/icons/organization-chart.png"),
                                   ),
@@ -244,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 10.h,
                       ),
                       Row(
                         children: [
@@ -261,7 +262,7 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     // color: Colors.red.shade200,
                                     // width: 50,
-                                    height: 50,
+                                    height: 50.h,
                                     child: Image.asset(
                                         "images/icons/ambulance.png"),
                                   ),
@@ -272,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 10.h,
                       ),
                       Container(
                         //    width: _deviceWidth,
@@ -286,36 +287,36 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 bloodGroupButton("A+", context),
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                                 bloodGroupButton("B+", context),
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                                 bloodGroupButton("AB+", context),
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                                 bloodGroupButton("O+", context),
                               ],
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 10.h,
                             ),
                             Wrap(
 //                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 bloodGroupButton("A-", context),
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                                 bloodGroupButton("B-", context),
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                                 bloodGroupButton("AB-", context),
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                                 bloodGroupButton("O-", context),
                               ],
@@ -324,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 10.h,
                       ),
                       Image.asset(
                         "images/bloodchart.jpg",
@@ -343,12 +344,12 @@ Widget Button(Widget icon, String iconName, BuildContext context) {
   final _deviceWidth = MediaQuery.of(context).size.width;
   return Container(
     // color: Colors.red,
-    width: 100,
-    height:  90,
+    width: 100.w,
+    height:  90.h,
     decoration: BoxDecoration(
       color: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.all(
-        Radius.circular(20),
+        Radius.circular(20.r),
       ),
     ),
     child: Column(
@@ -358,7 +359,7 @@ Widget Button(Widget icon, String iconName, BuildContext context) {
         FittedBox(
           child: Text(
             iconName,
-            style: TextStyle(fontSize: 17),
+            style: TextStyle(fontSize: 17.sp),
           ),
         ),
       ],
@@ -377,15 +378,15 @@ Widget bloodGroupButton(String bloodGroup, BuildContext context) {
       );
     },
     child: Container(
-      width: 70,
-      height: 70,
+      width: 70.w,
+      height: 70.h,
 
       decoration:
           const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
       child: Center(
         child: Text(
           bloodGroup,
-          style: TextStyle(fontSize: 22),
+          style: TextStyle(fontSize: 22.sp),
           //textAlign: TextAlign.center,
         ),
       ),

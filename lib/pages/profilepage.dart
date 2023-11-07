@@ -95,12 +95,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BecomeDonorPage(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => BecomeDonorPage(),
+                  //   ),
+                  // );
                 },
                 child: Text("Edit Profile",style: TextStyle(fontSize: 18),),
               ),

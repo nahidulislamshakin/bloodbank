@@ -1,24 +1,11 @@
 import 'dart:io';
-
 import 'package:bloodbank/pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../firebase/authentication.dart';
-
-//  const List<String> districtList = [
-//   "Gopalganj",
-//   "Dhaka",
-//   "Khulna",
-//   "Barisal",
-//   "Rangpur",
-//   "Chittagong",
-//   "Gazipur",
-//   "Sylhet"
-// ];
 
 class BecomeDonorPage extends StatefulWidget {
   // get districtLeangth => null;
@@ -60,16 +47,6 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
     "AB-",
     "O-"
   ];
-  // static const List<String> districtList = [
-  //   "Gopalganj",
-  //   "Dhaka",
-  //   "Khulna",
-  //   "Barisal",
-  //   "Rangpur",
-  //   "Chittagong",
-  //   "Gazipur",
-  //   "Sylhet"
-  // ];
 
   static const List<String> districtList = [
     "Location",
@@ -138,6 +115,7 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
     "Narail",
     "Satkhira"
   ];
+
   List<String> districtGet() {
     return districtList;
   }
@@ -164,6 +142,11 @@ class _BecomeDonorPageState extends State<BecomeDonorPage> {
 
   @override
   void dispose() {
+    nameController!.dispose();
+    phoneController!.dispose();
+    bloodgroupController!.dispose();
+    districtController!.dispose();
+    passwordController!.dispose();
     super.dispose();
   }
 

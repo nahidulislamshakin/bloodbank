@@ -26,7 +26,7 @@ void main() async {
   //  ]);
   runApp(
  DevicePreview(
-    enabled: false,
+    enabled: true,
     builder: (context) => 
     MyApp(),
 
@@ -52,16 +52,18 @@ class MyApp extends StatelessWidget {
        splitScreenMode: true,
         builder:(context,_child)=> 
         MaterialApp(
-          theme: ThemeData(
+          theme: ThemeData( 
             brightness: Brightness.light,
             primaryColor: Colors.red,
             appBarTheme: AppBarTheme(
+              
               backgroundColor: Colors.red,
               centerTitle: true,
               elevation: 8.0,
-              titleTextStyle: TextStyle(fontSize: 17),
-            )
-        
+              titleTextStyle: TextStyle(fontSize: 17.sp),
+              
+            ),
+            
 
           ),
           useInheritedMediaQuery: true,
