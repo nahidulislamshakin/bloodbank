@@ -429,6 +429,7 @@ class _RequestPageState extends State<RequestPage> {
                           }
                           else
                             {
+                              await _authService.requestForBlood(patientNameController!.text, ageController!.text, contactNumberController!.text, bloodGroup, district,patientDescriptionController!.text);
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

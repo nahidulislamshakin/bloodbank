@@ -10,7 +10,7 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Feed"),
+        title: Text("News Feed"),
         backgroundColor: Colors.red,
         centerTitle: true,
       ),
@@ -19,6 +19,7 @@ class _FeedPageState extends State<FeedPage> {
           padding: EdgeInsets.all(8),
           child: SingleChildScrollView(
             child: Column(
+
               
             ),
           ),

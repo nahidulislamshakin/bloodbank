@@ -19,7 +19,7 @@ class Authentication {
   //   print("get user is worked");
   //   return FirebaseAuth.instance.authStateChanges().map(userFromFirebase);
   // }
-
+ // String uuid = Uuid().v4();
   Future<String?> login({
     required String email,
     required String password,
@@ -72,6 +72,26 @@ class Authentication {
         "District": district,
         "Uid":uid,
         "imageUrl":imageUrl
+      });
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future<String?> requestForBlood(String name, String age, String phone,
+      String bloodgroup, String district, String description) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("BloodRequest")
+          .doc(DateTime.now().toString())
+          .set({
+        "Name": name,
+        "Age": age,
+        "Phone": phone,
+        "Blood Group": bloodgroup,
+        "District": district,
+        "Description":description
+
       });
     } on FirebaseAuthException catch (e) {
       return e.message;
